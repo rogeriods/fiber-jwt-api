@@ -1,0 +1,19 @@
+### Register
+curl --location 'localhost:3000/register' \
+--header 'Content-Type: application/json' \
+--data '{
+    "username": "user.test",
+    "password": "123mudar"
+}'
+
+### Login
+curl --location 'localhost:3000/login' \
+--header 'Content-Type: application/json' \
+--data '{
+    "username": "user.test",
+    "password": "123mudar"
+}'
+
+### Profile
+curl --location 'localhost:3000/api/profile' \
+--header 'Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE3NDk2NjI0NzksInVzZXJfaWQiOjIsInVzZXJfbmFtZSI6InVzZXIudGVzdCJ9.DPlljhpy6xsqoF8LmoBkVhVt6UM-uIg2-O7fyb0G02Y'
