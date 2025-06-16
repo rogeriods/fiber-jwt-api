@@ -22,5 +22,12 @@ func main() {
 	protected := app.Group("/api", middlewares.JwtCheckMiddleware)
 	protected.Get("/profile", handlers.Profile)
 
+	// Private URLs for contacts
+	protected.Post("/contacts", handlers.CreateContact)
+	protected.Get("/contacts", handlers.GetContacts)
+	protected.Get("/contacts/:id", handlers.GetContactById)
+	protected.Put("/contacts/:id", handlers.UpdateContact)
+	protected.Delete("/contacts/:id", handlers.DeleteContact)
+
 	log.Fatal(app.Listen(":3000"))
 }

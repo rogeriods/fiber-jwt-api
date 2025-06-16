@@ -10,9 +10,7 @@ import (
 	"golang.org/x/crypto/bcrypt"
 )
 
-// @route	POST /register
-// @desc	Create user
-// @access	Public
+// Create user
 func Register(c *fiber.Ctx) error {
 	var input models.User
 	// Check if JSON raw could be parsed to User model
@@ -32,9 +30,7 @@ func Register(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"message": "User created"})
 }
 
-// @route	POST /login
-// @desc	Login return JWT Token
-// @access	Public
+// Login return JWT Token
 func Login(c *fiber.Ctx) error {
 	var input models.User
 	if err := c.BodyParser(&input); err != nil {
@@ -65,9 +61,7 @@ func Login(c *fiber.Ctx) error {
 	return c.JSON(fiber.Map{"token": t})
 }
 
-// @route	GET /api/profile
-// @desc	Get profile data
-// @access	Private
+// Get profile data
 func Profile(c *fiber.Ctx) error {
 	userID := c.Locals("userID")
 	userName := c.Locals("userName")

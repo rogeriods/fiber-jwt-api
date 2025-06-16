@@ -10,7 +10,7 @@ import (
 
 var (
 	DB        *gorm.DB
-	JWTSecret = []byte("2baad95bafc04cc1a8e4d1e292a782147a74d5dbaa1ef59bc2e533fda7c278ab")
+	JWTSecret = []byte("2baad95bafc04cc1a8e4d1e292a782147a74d5dbaa1ef59bc2e533fda7c278ab") // My SHA1 default pass
 )
 
 func InitDatabase() {
@@ -22,4 +22,5 @@ func InitDatabase() {
 
 	// Migrations
 	DB.AutoMigrate(&models.User{})
+	DB.AutoMigrate(&models.Contact{})
 }
