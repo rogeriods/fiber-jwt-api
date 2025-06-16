@@ -1,9 +1,11 @@
 package handlers
 
 import (
+	"fmt"
 	"rogeriods/fiber-jwt-api/configs"
 	"rogeriods/fiber-jwt-api/models"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/gofiber/fiber/v2"
 )
 
@@ -16,6 +18,15 @@ func CreateContact(c *fiber.Ctx) error {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid request"})
 	}
 
+	// Validate inputs
+	if err := configs.Validate.Struct(contact); err != nil {
+		errs := make(map[string]string)
+		for _, err := range err.(validator.ValidationErrors) {
+			errs[err.Field()] = fmt.Sprintf("failed on '%s' tag", err.Tag())
+		}
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"errors": errs})
+	}
+
 	contact.UserID = uint(userID.(float64)) // convert any to uint
 	if err := configs.DB.Create(&contact).Error; err != nil {
 		return c.Status(fiber.StatusInternalServerError).JSON(fiber.Map{"error": "Could not create contact"})
@@ -24,7 +35,7 @@ func CreateContact(c *fiber.Ctx) error {
 	return c.JSON(contact)
 }
 
-// Get contact by user logged
+// Get contact by userID
 func GetContacts(c *fiber.Ctx) error {
 	userID := c.Locals("userID")
 
@@ -61,6 +72,15 @@ func UpdateContact(c *fiber.Ctx) error {
 
 	if err := c.BodyParser(&contact); err != nil {
 		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"error": "Invalid input"})
+	}
+
+	// Validate inputs
+	if err := configs.Validate.Struct(contact); err != nil {
+		errs := make(map[string]string)
+		for _, err := range err.(validator.ValidationErrors) {
+			errs[err.Field()] = fmt.Sprintf("failed on '%s' tag", err.Tag())
+		}
+		return c.Status(fiber.StatusBadRequest).JSON(fiber.Map{"errors": errs})
 	}
 
 	configs.DB.Save(&contact)
