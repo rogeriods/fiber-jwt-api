@@ -7,12 +7,16 @@ import (
 	"rogeriods/fiber-jwt-api/middlewares"
 
 	"github.com/gofiber/fiber/v2"
+	"github.com/gofiber/fiber/v2/middleware/cors"
 )
 
 func main() {
 	configs.InitDatabase()
 
 	app := fiber.New()
+
+	// Enable CORS for all origins
+	app.Use(cors.New())
 
 	// Public urls
 	app.Post("/register", handlers.Register)
